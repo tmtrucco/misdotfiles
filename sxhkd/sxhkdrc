@@ -1,0 +1,75 @@
+# show help
+super + h
+    $HOME/scripts/sxhkd-help.sh
+
+# terminal emulator
+super + a
+	alacritty
+
+# program launcher
+super + @space
+	rofi -show drun -show-icons
+
+# launch Firefox
+super + f
+	$HOME/AppImages/Thorium.AppImage
+
+# launch thunar
+super + t
+	Thunar
+
+# make sxhkd reload
+super + Escape
+	pkill -USR1 -x sxhkd; notify-send -h string:bgcolor:#8000000 -h string:frcolor:#00000000 'sxhkd' 'Reloaded config'
+
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill 
+super + {_,shift + }w
+	bspc node -{c,k}
+
+# close and kill 2
+super + {_,shift + }Delete
+	bspc node -{c,k}
+
+# switch between nodes in workplace
+super + Tab
+	bspc node -f next.local
+
+# switch to next/previous workplace
+super + {Left, Right}
+ 	bspc desktop -f {prev,next}.local
+
+# switch nodes to a different workplace
+super + shift + {1-9,0}
+	bspc node -d '^{1-9,0}' --follow
+
+# focus on specific desktop
+super + {1-9,0}
+    desktop='^{1-9,10}'; \
+    bspc query -D -d "$desktop.focused" && bspc desktop -f last || bspc desktop -f "$desktop"
+
+# Expand/contract a window by moving one of its side outward/inward (Esc to finish)
+super + s : {h,j,k,l}
+    STEP=20; SELECTION={1,2,3,4}; \
+    bspc node -z $(echo "left -$STEP 0,bottom 0 $STEP,top 0 -$STEP,right $STEP 0" | cut -d',' -f$SELECTION) || \
+    bspc node -z $(echo "right -$STEP 0,top 0 $STEP,bottom 0 -$STEP,left $STEP 0" | cut -d',' -f$SELECTION)
+
+# Rotate tree
+super + shift + {Right,Left}
+    bspc node @/ -C {forward,backward}i
+
+
+#Full Screenshot
+Print
+    scrot 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`'
+
+#Area selection screenshot
+Shift + Print
+    scrot -s 'screenshot_%Y%m%d_%H%M%S.png' -e 'mkdir -p ~/screenshots && mv $f ~/screenshots && xclip -selection clipboard -t image/png -i ~/screenshots/`ls -1 -t ~/screenshots | head -1`'
+
+#Power Menu
+super + p
+	$HOME/.config/polybar/docky/scripts/powermenu.sh
