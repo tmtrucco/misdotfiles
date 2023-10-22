@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Etterna
+GenericName=rythym game
+Exec= /home/tomi/Etterna/Etterna
+Comment= 4Key Mania!
+Icon= /home/tomi/Etterna/Assets/Avatars/Divide.png
+Terminal=false
+Categories=Game;
+Keywords=game;hola
